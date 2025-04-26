@@ -63,9 +63,59 @@ def load_and_merge_data():
     
     return merged_df
 
+# ===== TASK 2a: Fundamental Data Understanding =====
+def fundamental_data_understanding(df):
+    """
+    Task 2a: Fundamental Data Understanding
+    - Demonstrate the understanding of the data to gain general insights
+    - Covers: number of rows and columns, values in the data, data types, missing values
+    """
+    print("\n===== TASK 2a: Fundamental Data Understanding =====")
+    
+    # Display basic information about the dataset
+    print("\nBasic Information:")
+    print(f"Number of rows: {df.shape[0]}")
+    print(f"Number of columns: {df.shape[1]}")
+    
+    # Display column names and data types
+    print("\nColumn Names and Data Types:")
+    for col, dtype in df.dtypes.items():
+        print(f"  - {col}: {dtype}")
+    
+    # Check for missing values
+    print("\nMissing Values by Column:")
+    missing_values = df.isnull().sum()
+    missing_percent = (missing_values / len(df) * 100).round(2)
+    
+    for col, count in missing_values.items():
+        if count > 0:
+            print(f"  - {col}: {count} missing values ({missing_percent[col]}%)")
+    
+    # Summary statistics for numeric columns
+    print("\nSummary Statistics for Key Pollutants:")
+    pollutants = ['PM2.5', 'PM10', 'SO2', 'NO2', 'CO', 'O3']
+    print(df[pollutants].describe().round(2))
+    
+    # Summary statistics for meteorological data
+    print("\nSummary Statistics for Meteorological Data:")
+    meteo_vars = ['TEMP', 'PRES', 'DEWP', 'RAIN', 'WSPM']
+    print(df[meteo_vars].describe().round(2))
+    
+    # Distribution of data across sites
+    print("\nData Distribution Across Sites:")
+    site_counts = df['site'].value_counts()
+    for site, count in site_counts.items():
+        print(f"  - {site}: {count} records ({count/len(df)*100:.2f}%)")
+    
+    return df
+
 
 # Execute Tasks
 if __name__ == "__main__":
     # Task 1: Data Handling
     merged_data = load_and_merge_data()
     print("\nTask 1 completed successfully!")
+    
+    # Task 2a: Fundamental Data Understanding
+    fundamental_data_understanding(merged_data)
+    print("\nTask 2a completed successfully!")
